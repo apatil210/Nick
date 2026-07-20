@@ -54,6 +54,17 @@ UNIT_CONFIG = {
     }
 }
 
+FIXED_PRODUCTION_PROCESSES = {
+    "petroleum refining",
+    "wet corn milling",
+    "fluid milk manufacturing",
+    "soybean oil processing",
+    "beer processing",
+    "secondary aluminum",
+    "distillery",
+    "automobile assembly",
+}
+
 
 @st.cache_data(show_spinner=False)
 def load_excel(url: str) -> pd.DataFrame:
@@ -85,6 +96,10 @@ def clean_category(series: pd.Series) -> pd.Series:
         .str.strip()
         .replace({"": "Unknown", "nan": "Unknown", "None": "Unknown"})
     )
+
+
+def normalize_process_name(name: str) -> str:
+    return str(name).strip().lower()
 
 
 def c_to_f(x):
@@ -447,6 +462,7 @@ def build_fact_sheet(df: pd.DataFrame, selected_process: str):
     })
 
     return {
+        "Process Name": selected_process,
         "Annual Production": annual_production,
         "Annual Energy": annual_energy,
         "NAICS Code": naics_code,
@@ -464,7 +480,11 @@ def convert_fact_sheet_for_units(fact_sheet: dict, unit_system: str) -> dict:
         return fact_sheet
 
     converted = fact_sheet.copy()
-    converted["Annual Production"] = million_tonnes_to_million_short_tons(converted["Annual Production"])
+    process_name = normalize_process_name(converted.get("Process Name", ""))
+
+    if process_name not in FIXED_PRODUCTION_PROCESSES:
+        converted["Annual Production"] = million_tonnes_to_million_short_tons(converted["Annual Production"])
+
     converted["Annual Energy"] = pj_to_tbtu(converted["Annual Energy"])
     converted["SEC Electricity"] = gj_per_t_to_mmbtu_per_short_ton(converted["SEC Electricity"])
     converted["SEC Fuels"] = gj_per_t_to_mmbtu_per_short_ton(converted["SEC Fuels"])
