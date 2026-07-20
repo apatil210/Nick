@@ -57,7 +57,7 @@ UNIT_CONFIG = {
 FIXED_PRODUCTION_PROCESSES = {
     "petroleum refining",
     "wet corn milling",
-    "fluid milk manufacturing",
+    "fluid milk manufacturing (311521)",
     "soybean oil processing",
     "beer processing",
     "secondary aluminum",
@@ -573,9 +573,9 @@ try:
             "Select an industrial process to view its energy demand breakdown. "
             "Note that the production units for some processes differ from million tonnes of product and are defined as follows: "
             "barrels of crude for Petroleum Refining (324110), bushels of corn for Wet Corn Milling (311221), "
-            "million tonnes of raw milk input for Fluid Milk Manufacturing (3115), million tonnes of soybeans input for Soybean Processing (311224), "
+            "million tonnes of raw milk input for Fluid Milk Manufacturing (3115), million tonnes of soybeans input for Soybean Oil Processing (311224), "
             "barrels of beer for Beer Processing (312120), million tonnes of scrap input for Secondary Aluminum (331313), "
-            "cubic meters of spirits for Distillery (312140) and vehicle units for Automotive Assembly (336110)",
+            "cubic meters of spirits for Distillery (312140) and vehicle units for Automobile Assembly (336110)",
             bar_df["Industrial process"].tolist()
         )
 
