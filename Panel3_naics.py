@@ -268,7 +268,7 @@ def render_overview(
                     hole=0.62,
                     color="NAICS Level 2",
                     color_discrete_sequence=NAICS_COLORS,
-                    title="NAICS Subsectors Within",
+                    title="NAICS Subsectors Within (% subsector total energy use)",
                 )
                 fig = style_donut(fig, energy_unit)
                 st.plotly_chart(fig, use_container_width=True)
@@ -281,7 +281,7 @@ def render_overview(
                     hole=0.62,
                     color="Industrial process",
                     color_discrete_sequence=PROCESS_COLORS,
-                    title="Industrial Processes Within",
+                    title="Industrial Processes Within (% subsector total energy use)",
                 )
                 fig = style_donut(fig, energy_unit)
                 st.plotly_chart(fig, use_container_width=True)
@@ -295,7 +295,7 @@ def render_overview(
                     hole=0.62,
                     color="Type",
                     color_discrete_map=ENERGY_SOURCE_COLORS,
-                    title="Distribution by Energy Source",
+                    title="Distribution by Energy Source (% subsector total energy use)",
                 )
                 fig = style_donut(fig, energy_unit)
                 st.plotly_chart(fig, use_container_width=True)
@@ -309,7 +309,7 @@ def render_overview(
                     color="Temperature Range",
                     color_discrete_map=temp_color_map,
                     category_orders={"Temperature Range": temp_order},
-                    title="Distribution by Process Temperature",
+                    title="Distribution by Process Temperature (% subsector total energy use)",
                 )
                 fig = style_donut(fig, energy_unit)
                 st.plotly_chart(fig, use_container_width=True)
@@ -326,7 +326,7 @@ def render_overview(
                     hole=0.62,
                     color="Type",
                     color_discrete_map=ENERGY_SOURCE_COLORS,
-                    title="Distribution by Energy Source",
+                    title="Distribution by Energy Source (% subsector total energy use)",
                 )
                 fig = style_donut(fig, energy_unit)
                 st.plotly_chart(fig, use_container_width=True)
@@ -341,7 +341,7 @@ def render_overview(
                     color="Temperature Range",
                     color_discrete_map=temp_color_map,
                     category_orders={"Temperature Range": temp_order},
-                    title="Distribution by Process Temperature",
+                    title="Distribution by Process Temperature (% subsector total energy use)",
                 )
                 fig = style_donut(fig, energy_unit)
                 st.plotly_chart(fig, use_container_width=True)
