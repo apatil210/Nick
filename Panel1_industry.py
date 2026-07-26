@@ -592,7 +592,7 @@ try:
 
             st.subheader("Specific Energy Consumption (SEC)")
 
-            st.caption("Categorization by Energy Source")
+            st.markdown("Categorization by Energy Source")
             st.plotly_chart(
                 build_sec_donut(display_fact_sheet, unit_system),
                 use_container_width=True,
