@@ -664,7 +664,7 @@ def build_temperature_donut(fact_sheet: dict, unit_system: str):
 # ----------------------------
 # App UI
 # ----------------------------
-st.title("2022 U.S. Manufacturing Energy Consumption by Unit Operation and Energy Source")
+st.title("U.S. Manufacturing Energy Consumption by Unit Operation and Energy Source")
 
 unit_system = st.radio(
     "Select unit system",
