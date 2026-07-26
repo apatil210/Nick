@@ -540,7 +540,7 @@ def convert_fact_sheet_for_units(fact_sheet: dict, unit_system: str) -> dict:
     return converted
 
 
-st.title("2022 U.S. Manufacturing Energy Consumption by Industrial Process")
+st.title("U.S. Manufacturing Energy Consumption by Industrial Process")
 
 unit_system = st.radio(
     "Select unit system",
