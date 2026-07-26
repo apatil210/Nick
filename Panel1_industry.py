@@ -607,7 +607,7 @@ try:
                 theme=None,
                 config={"displayModeBar": False}
             )
-
+            st.markdown("**Process Energy Breakdown**")
             st.dataframe(
                 display_fact_sheet["Details"],
                 use_container_width=True,
