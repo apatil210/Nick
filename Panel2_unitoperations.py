@@ -778,7 +778,7 @@ try:
                 ],
                 errors="ignore"
             )
-
+            st.markdown("**Process Energy Breakdown**")
             st.dataframe(
                 detail_df,
                 use_container_width=True,
