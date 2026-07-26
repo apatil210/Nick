@@ -600,7 +600,7 @@ try:
                 config={"displayModeBar": False}
             )
 
-            st.caption("Categorization by Process Temperature")
+            st.markdown("**Categorization by Process Temperature**")
             st.plotly_chart(
                 build_temp_sec_donut(display_fact_sheet, unit_system),
                 use_container_width=True,
