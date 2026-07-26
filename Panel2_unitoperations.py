@@ -90,7 +90,7 @@ COL_ANNUAL_PRODUCTION = "Annual production in 2022\n(based on FU)"
 
 COL_SEC_ELECTRICITY = "SEC electricity"
 COL_SEC_FUELS = "SEC fuels"
-COL_SEC_STEAM = "SEC Fuels or Electricity for Steam or Steam from CHP (GJ/t)"
+COL_SEC_STEAM = "SEC Fuels or Electricity for Steam or Steam from CHP"
 
 COL_EFFICIENCY = "Efficiency"
 COL_PROCESS_TEMP = "Process temperature"
