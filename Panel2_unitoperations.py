@@ -731,7 +731,7 @@ try:
 
             st.subheader("Annual Energy Use Breakdown")
 
-            st.caption("Categorization by Energy Source")
+            st.markdown("**Categorization by Energy Source**")
             donut_fig = build_annual_energy_donut(display_fact_sheet, unit_system)
             if donut_fig is not None:
                 st.plotly_chart(
@@ -743,7 +743,7 @@ try:
             else:
                 st.info("No positive annual energy values available for the selected category.")
 
-            st.caption("Categorization by Process Temperature")
+            st.markdown("**Categorization by Process Temperature**")
             temp_donut_fig = build_temperature_donut(display_fact_sheet, unit_system)
             if temp_donut_fig is not None:
                 st.plotly_chart(
