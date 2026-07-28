@@ -719,6 +719,7 @@ try:
         )
         st.caption("*Represented 2/3 of U.S. manufacturing sector in 2022.")
     with right_col:
+        st.subheader("Energy Use Breakdown for Specific Processes")
         selected_l2 = st.selectbox(
             "Select a unit operation to view its energy use breakdown",
             all_l2_df["Unit operation (Level 2 classification)"].tolist()
