@@ -79,8 +79,10 @@ UNIT_CONFIG = {
 # ----------------------------
 # Exact workbook column names
 # ----------------------------
+COL_CURRENT_CLASSIFICATION = "Current classification"
 COL_L2 = "Unit operation (Level 2 classification)"
 COL_L3 = "Industrial process"
+COL_MODE_OF_OPERATION = "Mode of operation \n(Batch / \nContinuous)"
 COL_PERCENT_ENERGY = "Percent Annual energy demand in 2022"
 COL_PERCENT_ELECTRICITY = "Percent Annual electricity demand in 2022"
 COL_PERCENT_FUELS = "Perent Annual fuels demand in 2022"
@@ -101,7 +103,6 @@ COL_PROCESS_PRESSURE = "Process pressure"
 COL_INLET_PRESSURE = "Inlet pressure"
 COL_OUTLET_PRESSURE = "Outlet pressure"
 COL_RESIDENCE_TIME = "Residence time"
-COL_NAICS = "NAICS Level 2 Code Number"
 
 # ----------------------------
 # Exact Excel columns (1-based)
@@ -164,15 +165,6 @@ def find_matching_column(df: pd.DataFrame, target: str) -> str:
 # Cleaning utilities
 # ----------------------------
 def clean_category(series: pd.Series) -> pd.Series:
-    return (
-        series.astype(str)
-        .str.replace("\xa0", " ", regex=False)
-        .str.strip()
-        .replace({"": "Unknown", "nan": "Unknown", "None": "Unknown"})
-    )
-
-
-def clean_naics(series: pd.Series) -> pd.Series:
     return (
         series.astype(str)
         .str.replace("\xa0", " ", regex=False)
@@ -287,6 +279,8 @@ def prepare_treemap_data(df: pd.DataFrame, metric_col_name: str, top_n: int = 10
 def build_fact_sheet(df: pd.DataFrame, selected_l2: str):
     l2_col = find_matching_column(df, COL_L2)
     l3_col = find_matching_column(df, COL_L3)
+    classification_col = find_matching_column(df, COL_CURRENT_CLASSIFICATION)
+    mode_of_operation_col = find_matching_column(df, COL_MODE_OF_OPERATION)
     annual_prod_col = find_matching_column(df, COL_ANNUAL_PRODUCTION)
 
     sec_elec_col = find_matching_column(df, COL_SEC_ELECTRICITY)
@@ -301,7 +295,6 @@ def build_fact_sheet(df: pd.DataFrame, selected_l2: str):
     inlet_pressure_col = find_matching_column(df, COL_INLET_PRESSURE)
     outlet_pressure_col = find_matching_column(df, COL_OUTLET_PRESSURE)
     residence_time_col = find_matching_column(df, COL_RESIDENCE_TIME)
-    naics_col = find_matching_column(df, COL_NAICS)
 
     annual_energy_col = "_Annual_Energy_AU"
     annual_elec_col = "_Annual_Electricity_AW"
@@ -313,7 +306,8 @@ def build_fact_sheet(df: pd.DataFrame, selected_l2: str):
     fact_df = df.copy()
     fact_df[l2_col] = clean_category(fact_df[l2_col])
     fact_df[l3_col] = clean_category(fact_df[l3_col])
-    fact_df[naics_col] = clean_naics(fact_df[naics_col])
+    fact_df[classification_col] = clean_text(fact_df[classification_col])
+    fact_df[mode_of_operation_col] = clean_text(fact_df[mode_of_operation_col])
 
     selected_l2_clean = str(selected_l2).replace("\xa0", " ").strip()
     selected_df = fact_df[fact_df[l2_col] == selected_l2_clean].copy()
@@ -390,7 +384,8 @@ def build_fact_sheet(df: pd.DataFrame, selected_l2: str):
         [
             l3_col,
             description_col,
-            naics_col,
+            mode_of_operation_col,
+            classification_col,
             sec_elec_col,
             sec_fuels_col,
             sec_steam_col,
@@ -408,10 +403,11 @@ def build_fact_sheet(df: pd.DataFrame, selected_l2: str):
     ].rename(columns={
         l3_col: "Industry Application",
         description_col: "Description",
-        naics_col: "NAICS Code",
+        mode_of_operation_col: "Mode of Operation (Batch/Continuous)",
+        classification_col: "Current classification",
         sec_elec_col: "SEC Electricity (GJ/t)",
         sec_fuels_col: "SEC Fuels (GJ/t)",
-        sec_steam_col: "SEC Fuels or Electricity for Steam or Steam from CHP (GJ/t)",
+        sec_steam_col: "SEC Steam (GJ/t)",
         efficiency_col: "Efficiency (%)",
         process_temp_col: "Process temperature123 (°C)",
         process_temp_web_col: "Process Temperature (°C)",
@@ -465,7 +461,7 @@ def convert_fact_sheet_units(fact_sheet: dict, unit_system: str) -> dict:
     sec_cols = [
         "SEC Electricity (GJ/t)",
         "SEC Fuels (GJ/t)",
-        "SEC Fuels or Electricity for Steam or Steam from CHP (GJ/t)"
+        "SEC Steam (GJ/t)"
     ]
     for col in sec_cols:
         if col in details.columns:
@@ -504,7 +500,7 @@ def convert_fact_sheet_units(fact_sheet: dict, unit_system: str) -> dict:
     details = details.rename(columns={
         "SEC Electricity (GJ/t)": "SEC Electricity (MMBtu/short ton)",
         "SEC Fuels (GJ/t)": "SEC Fuels (MMBtu/short ton)",
-        "SEC Fuels or Electricity for Steam or Steam from CHP (GJ/t)": "SEC Fuels or Electricity for Steam or Steam from CHP (MMBtu/short ton)",
+        "SEC Steam (GJ/t)": "SEC Steam (MMBtu/short ton)",
         "Process temperature123 (°C)": "Process temperature123 (°F)",
         "Process Temperature (°C)": "Process Temperature (°F)",
         "Inlet temperature (°C)": "Inlet temperature (°F)",
@@ -702,6 +698,7 @@ try:
             config={"displayModeBar": False, "scrollZoom": False}
         )
         st.caption("*Represented 2/3 of U.S. manufacturing sector in 2022.")
+
         st.subheader("Fuel Energy (Excluding Steam) Breakdown by Unit Operation (%)")
         st.plotly_chart(
             build_top10_treemap(fuels_df, "Top 10 Categories by Fuels (Excluding Steam) Use"),
@@ -710,6 +707,7 @@ try:
             config={"displayModeBar": False, "scrollZoom": False}
         )
         st.caption("*Represented 2/3 of U.S. manufacturing sector in 2022.")
+
         st.subheader("Steam Use Breakdown by Unit Operation (%)")
         st.plotly_chart(
             build_top10_treemap(steam_df, "Top 10 by Steam Use"),
@@ -718,6 +716,7 @@ try:
             config={"displayModeBar": False, "scrollZoom": False}
         )
         st.caption("*Represented 2/3 of U.S. manufacturing sector in 2022.")
+
     with right_col:
         st.subheader("Energy Use Breakdown for Specific Processes")
         selected_l2 = st.selectbox(
