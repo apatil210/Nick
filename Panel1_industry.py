@@ -569,6 +569,8 @@ try:
         )
 
     with right_col:
+        st.subheader("Process specific energy consumption breakdown")
+
         selected_process = st.selectbox(
             "Select an industrial process to view its energy demand breakdown. "
             "Note that the production units for some processes differ from million tonnes of product and are defined as follows: "
