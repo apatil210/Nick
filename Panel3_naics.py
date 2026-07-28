@@ -11,7 +11,7 @@ st.set_page_config(
 pio.templates.default = "plotly"
 
 SHEET_NAME = "Process-level data"
-DATA_URL = "https://raw.githubusercontent.com/apatil210/LDRD5/main/WebsiteEngine4.xlsx"
+DATA_URL = "WebsiteEngine4.xlsx"
 
 NAICS_COLORS = [
     "#0F4C5C", "#7A1F1F", "#5C4D7D", "#8A5A00",
