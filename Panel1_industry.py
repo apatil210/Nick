@@ -351,6 +351,7 @@ def build_temp_sec_donut(fact_sheet: dict, unit_system: str):
 def build_fact_sheet(df: pd.DataFrame, selected_process: str):
     process_col = "Industrial process"
     unit_ops_col = "Unit operation (Level 3 classification; with details)"
+    mode_col = "Mode of operation \n(Batch / \nContinuous)"
     production_col = "Annual production in 2022\n(based on FU)"
     annual_energy_col = "Annual energy demand in 2022"
 
@@ -370,6 +371,7 @@ def build_fact_sheet(df: pd.DataFrame, selected_process: str):
     fact_df = df.copy()
     fact_df[process_col] = clean_category(fact_df[process_col])
     fact_df[unit_ops_col] = clean_category(fact_df[unit_ops_col])
+    fact_df[mode_col] = clean_category(fact_df[mode_col])
 
     selected_df = fact_df[fact_df[process_col] == selected_process].copy()
 
@@ -453,10 +455,11 @@ def build_fact_sheet(df: pd.DataFrame, selected_process: str):
 
     detail_df = pd.DataFrame({
         "Unit Operations": selected_df[unit_ops_col],
+        "Mode of operation (Batch / Continuous)": selected_df[mode_col],
         "SEC Total (GJ/t)": selected_df.iloc[:, temp_sec_idx],
         "SEC Electricity (GJ/t)": selected_df.iloc[:, elec_idx],
         "SEC Fuels (GJ/t)": selected_df.iloc[:, fuel_idx],
-        "SEC Steam (GJ/ton; from fuels, electricity or CHP)": selected_df.iloc[:, steam_idx],
+        "SEC Steam (GJ/t)": selected_df.iloc[:, steam_idx],
         "Process temperature (°C)": selected_df[temp_web_col],
         "Process pressure (bar)": selected_df[process_pressure_col]
     })
