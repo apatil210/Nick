@@ -456,7 +456,7 @@ def build_fact_sheet(df: pd.DataFrame, selected_process: str):
         "SEC Total (GJ/t)": selected_df.iloc[:, temp_sec_idx],
         "SEC Electricity (GJ/t)": selected_df.iloc[:, elec_idx],
         "SEC Fuels (GJ/t)": selected_df.iloc[:, fuel_idx],
-        "SEC Steam (GJ/t)": selected_df.iloc[:, steam_idx],
+        "SEC Steam (GJ/ton; from fuels, electricity or CHP)": selected_df.iloc[:, steam_idx],
         "Process temperature (°C)": selected_df[temp_web_col],
         "Process pressure (bar)": selected_df[process_pressure_col]
     })
