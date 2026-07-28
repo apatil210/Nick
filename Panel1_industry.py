@@ -569,7 +569,7 @@ try:
         )
 
     with right_col:
-        st.subheader("Process specific energy consumption breakdown")
+        st.subheader("Process Specific Energy Consumption Breakdown")
 
         selected_process = st.selectbox(
             "Select an industrial process to view its energy demand breakdown. "
