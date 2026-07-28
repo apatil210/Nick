@@ -785,6 +785,6 @@ try:
                 hide_index=True
             )
             st.caption("*SEC steam denotes energy from fuels for steam generation, electricity or CHP")
-            st.caption("*Current Classifiaction denotes industry sector and NAICS code")
+            st.caption("**Current classifiaction denotes industry sector and NAICS code")
 except Exception as e:
     st.error(f"App error: {e}")
