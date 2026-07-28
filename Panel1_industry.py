@@ -138,7 +138,7 @@ def prepare_bar_data(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     df_agg = df_agg[df_agg[value_col] > 0].copy()
-    df_agg["Display Percent"] = df_agg[value_col] * 100
+    df_agg["Display Percent"] = (df_agg[value_col] * 100).round(1)
     df_agg["Rank"] = range(1, len(df_agg) + 1)
 
     return df_agg
@@ -172,7 +172,7 @@ def build_bar_chart(df: pd.DataFrame):
         cliponaxis=False,
         hovertemplate=(
             "<b>%{y}</b><br>"
-            "Percent annual energy: %{text:.2f}%<extra></extra>"
+            "Percent annual energy: %{text:.1f}%<extra></extra>"
         ),
         marker=dict(line=dict(color="#FCFCFA", width=1.2))
     )
@@ -261,11 +261,11 @@ def build_sec_donut(fact_sheet: dict, unit_system: str):
 
     fig.update_traces(
         textposition="outside",
-        texttemplate="%{label}<br>%{percent}",
+        texttemplate="%{label}<br>%{percent:.1%}",
         hovertemplate=(
             "<b>%{label}</b><br>"
             f"Value: %{{value:.3f}} {sec_unit}<br>"
-            "Share: %{percent}<extra></extra>"
+            "Share: %{percent:.1%}<extra></extra>"
         ),
         marker=dict(line=dict(color="#FFFFFF", width=2))
     )
@@ -314,11 +314,11 @@ def build_temp_sec_donut(fact_sheet: dict, unit_system: str):
 
     fig.update_traces(
         textposition="outside",
-        texttemplate="%{label}<br>%{percent}",
+        texttemplate="%{label}<br>%{percent:.1%}",
         hovertemplate=(
             "<b>%{label}</b><br>"
             f"Value: %{{value:.3f}} {sec_unit}<br>"
-            "Share: %{percent}<extra></extra>"
+            "Share: %{percent:.1%}<extra></extra>"
         ),
         marker=dict(line=dict(color="#FFFFFF", width=2))
     )
@@ -587,7 +587,7 @@ try:
 
             c1, c2, c3 = st.columns(3)
             c1.metric(unit_cfg["production_label"], f"{display_fact_sheet['Annual Production']:.2f}")
-            c2.metric(unit_cfg["energy_label"], f"{display_fact_sheet['Annual Energy']:.2f}")
+            c2.metric(unit_cfg["energy_label"], f"{display_fact_sheet['Annual Energy']:.0f}")
             c3.metric("NAICS Code", f"{display_fact_sheet['NAICS Code']}")
 
             st.subheader("Specific Energy Consumption (SEC)")
