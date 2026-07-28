@@ -101,11 +101,11 @@ def c_to_f(x):
 
 
 def fmt_energy(x, unit_system):
-    return f"{x:,.2f} {'PJ' if unit_system == 'SI' else 'TBtu'}"
+    return f"{x:,.0f} {'PJ' if unit_system == 'SI' else 'TBtu'}"
 
 
 def fmt_percent(x):
-    return f"{x:.2%}" if x > 0 else "N/A"
+    return f"{x:.1%}" if x > 0 else "N/A"
 
 
 def style_donut(fig, energy_unit):
