@@ -618,6 +618,6 @@ try:
                 use_container_width=True,
                 hide_index=True
             )
-
+            st.caption("*SEC steam denotes energy from fuels for steam generation, electricity or CHP")
 except Exception as e:
     st.error(f"App error: {e}")
